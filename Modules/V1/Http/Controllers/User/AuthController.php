@@ -61,9 +61,9 @@ class AuthController extends APIController
                 $oauth = Route::dispatch($proxy);
 
                 return parent::response('success', json_decode($oauth->getContent(), true), 200);
-        	} else {
-                return parent::response('error', 'Unauthorized', 401);
-        	}
+            }
+
+            return parent::response('error', 'Unauthorized', 401);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }

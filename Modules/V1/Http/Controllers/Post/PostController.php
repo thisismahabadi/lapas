@@ -14,8 +14,8 @@ class PostController extends APIController
     public function get()
     {
         try {
-        	$posts = Post::get();
-
+            $posts = Post::get();
+            
             return parent::response('success', $posts, 200);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
