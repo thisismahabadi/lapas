@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'v1'], function() {
+Route::group(['prefix' => 'v1', 'middleware' => 'throttle:100,1'], function() {
 	Route::group(['prefix' => 'posts', 'middleware' => 'auth:api'], function() {
 		Route::get('/', 'Post\PostController@get');
 		Route::post('/', 'Post\PostController@create');

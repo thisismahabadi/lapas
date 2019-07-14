@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Http\Controllers\APIController;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,6 +48,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ThrottleRequestsException) {
+            return (new APIController)->response('error', $exception->getMessage(), $exception->getStatusCode());
+        }
+
         return parent::render($request, $exception);
     }
 }
