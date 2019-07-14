@@ -1,0 +1,14 @@
+{
+    "name": "V1",
+    "alias": "v1",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\V1\\Providers\\V1ServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
