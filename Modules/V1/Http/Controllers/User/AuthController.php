@@ -24,11 +24,7 @@ class AuthController extends APIController
     public function register(RegisterUser $request)
     {
         try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+            $user = User::create($request->all());
 
             return parent::response('success', 'User has been registered successfully.', 201);
         } catch (Exception $e) {

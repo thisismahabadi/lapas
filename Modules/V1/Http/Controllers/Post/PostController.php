@@ -25,10 +25,7 @@ class PostController extends APIController
     public function create(CreatePost $request)
     {
         try {
-        	$post = Post::create([
-        		'title' => $request->title,
-        		'description' => $request->description,
-        	]);
+        	$post = Post::create($request->all());
 
             return parent::response('success', $post, 201);
         } catch (Exception $e) {
@@ -63,10 +60,7 @@ class PostController extends APIController
         int $id
     ) {
         try {
-        	$post = Post::where('id', $id)->update([
-        		'title' => $request->title,
-        		'description' => $request->description,
-        	]);
+        	$post = Post::where('id', $id)->update($request->all());
 
             return parent::response('success', $post, 200);
         } catch (Exception $e) {
