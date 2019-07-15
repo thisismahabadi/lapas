@@ -16,7 +16,7 @@ class PostController extends APIController
      *
      * @return \Illuminate\Http\Response
      */
-    public function get()
+    public function index()
     {
         try {
             $posts = Post::get();
@@ -33,7 +33,7 @@ class PostController extends APIController
      * @param  \Modules\V1\Http\Requests\Post\CreatePost  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(CreatePost $request)
+    public function store(CreatePost $request)
     {
         try {
         	$post = Post::create($request->all());
@@ -50,7 +50,7 @@ class PostController extends APIController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function find(int $id)
+    public function show(int $id)
     {
         try {
         	$post = Post::findOrFail($id);
@@ -67,7 +67,7 @@ class PostController extends APIController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete(int $id)
+    public function destroy(int $id)
     {
         try {
             $post = Post::findOrFail($id)->delete();
