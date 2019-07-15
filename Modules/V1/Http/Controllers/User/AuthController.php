@@ -21,6 +21,12 @@ class AuthController extends APIController
         $this->client = Client::where('password_client', true)->orderBy('id', 'desc')->first();
     }
 
+    /**
+     * Store a newly created user in database.
+     *
+     * @param  \Modules\V1\Http\Requests\User\RegisterUser  $request
+     * @return \Illuminate\Http\Response
+     */
     public function register(RegisterUser $request)
     {
         try {
@@ -32,6 +38,12 @@ class AuthController extends APIController
         }
     }
 
+    /**
+     * Login into existing user in database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(/* LoginUser */Request $request)
     {
         try {
@@ -65,6 +77,12 @@ class AuthController extends APIController
         }
     }
 
+    /**
+     * Exchange a refresh token for an access token when the access token has expired.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function refresh(Request $request)
     {
         try {
@@ -89,6 +107,12 @@ class AuthController extends APIController
         }
     }
 
+    /**
+     * Logout from current user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function logout(Request $request)
     {
         try {

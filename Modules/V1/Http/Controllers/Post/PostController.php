@@ -11,6 +11,11 @@ use Modules\V1\Http\Requests\Post\UpdatePost;
 
 class PostController extends APIController
 {
+    /**
+     * Display a listing of the post.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function get()
     {
         try {
@@ -22,6 +27,12 @@ class PostController extends APIController
         }
     }
 
+    /**
+     * Store a newly created post in database.
+     *
+     * @param  \Modules\V1\Http\Requests\Post\CreatePost  $request
+     * @return \Illuminate\Http\Response
+     */
     public function create(CreatePost $request)
     {
         try {
@@ -33,6 +44,12 @@ class PostController extends APIController
         }
     }
 
+    /**
+     * Display the specified post.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function find(int $id)
     {
         try {
@@ -44,6 +61,12 @@ class PostController extends APIController
         }
     }
 
+    /**
+     * Remove the specified post from database.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function delete(int $id)
     {
         try {
@@ -55,6 +78,13 @@ class PostController extends APIController
         }
     }
 
+    /**
+     * Update the specified post in database.
+     *
+     * @param  \Modules\V1\Http\Requests\Post\UpdatePost  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(
         UpdatePost $request,
         int $id
