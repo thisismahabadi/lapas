@@ -83,12 +83,14 @@ Passport::refreshTokensExpireIn(now()->addMonths(1));
 Passport::personalAccessTokensExpireIn(now()->addHours(1));
 ```
 
-Then I added throttle middleware in route to provide basic rate limiting like this:
+Then I added throttle middleware in route to provide simple rate limiting like these:
 
 ```bash
 Route::group(['middleware' => 'throttle:100,1'], function() {
+
+Route::get('posts', ...)->middleware('throttle:100,1');
 ```
-Which means
+Which means you can send 100 request per minute and after that you should stay till 1 minute to re-send you requests.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
