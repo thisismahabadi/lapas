@@ -38,19 +38,19 @@ Available routes and http methods:
 ```bash
 POST: /api/v1/register - register new user
 POST: /api/v1/login - login user
-POST: /api/v1/refresh - get new access token by refresh token
+POST: /api/v1/logout - Logout from current user
 ```
 
 These routes need sending datas in body.
 
 ```bash
-GET: /api/v1/posts - get all posts
-POST: /api/v1/posts - create new post
-GET: /api/v1/posts/{id} - get specific post using id
-PUT: /api/v1/posts/{id} - edit specific post using id
-DELETE: /api/v1/posts/{id} - delete specific post using id
+GET: /api/v1/posts - Display a listing of the post
+POST: /api/v1/posts - Store a newly created post in database
+GET: /api/v1/posts/{id} - Display the specified post
+PUT: /api/v1/posts/{id} - Update the specified post in database
+DELETE: /api/v1/posts/{id} - Remove the specified post from database
 
-POST: /api/v1/logout - logout current requested user
+POST: /api/v1/refresh - Exchange a refresh token for an access token when the access token has expired
 ```
 
 All of these routes are provided with auth:api middleware which means you should send Authorization field in request header.
