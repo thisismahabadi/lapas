@@ -33,6 +33,9 @@ php artisan serve
 ```
 
 ## Back-End Documentation
+
+### Routes and Methods
+
 Available routes and http methods:
 
 ```bash
@@ -53,8 +56,39 @@ DELETE: /api/v1/posts/{id} - Remove the specified post from database
 POST: /api/v1/refresh - Exchange a refresh token for an access token when the access token has expired
 ```
 
-All of these routes are provided with auth:api middleware which means you should send Authorization field in request header.
- 
+All of these routes except register and login are provided with auth:api middleware which means you should send Authorization field in request header.
+
+### Passport Configuration
+
+In VerifyCsrfToken middleware I set $except array to following routes to avoid sending csrf-token in the body like this:
+
+```bash
+protected $except = [
+    'api/v1/posts',
+    'api/v1/posts/*',
+    'api/v1/register',
+    'api/v1/login',
+    'api/v1/refresh',
+    'api/v1/logout',
+];
+```
+
+I added tokens lifetime in boot method of AuthServiceProvider like this:
+
+```bash
+Passport::tokensExpireIn(now()->addHours(1));
+
+Passport::refreshTokensExpireIn(now()->addMonths(1));
+
+Passport::personalAccessTokensExpireIn(now()->addHours(1));
+```
+
+Then I added throttle middleware in route to provide basic rate limiting like this:
+
+```bash
+Route::group(['middleware' => 'throttle:100,1'], function() {
+```
+Which means
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
