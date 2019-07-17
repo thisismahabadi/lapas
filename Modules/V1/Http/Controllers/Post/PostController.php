@@ -97,4 +97,35 @@ class PostController extends APIController
             return parent::response('error', $e->getMessage(), 500);
         }
     }
+
+    /**
+     * Sort a listing of the post.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sort(Request $request)
+    {
+        try {
+            if ($request->has('page')) {
+                $posts = Post::paginate(10, $request->page);
+
+                return parent::response('success', $posts, 200);
+            }
+
+            if ($request->has('field') && $request->has('value')) {
+                if (in_array($request->field, Post::$sortArray)) {
+                    $posts = Post::sort($request->field, $request->value);
+                    
+                    return parent::response('success', $posts->get(), 200);
+                }
+            }
+
+            if (!$request->has('page') && !$request->has('field') && !$request->has('value')) {
+                return $this->index();
+            }
+        } catch (Exception $e) {
+            return parent::response('error', $e->getMessage(), 500);
+        }
+    }
 }

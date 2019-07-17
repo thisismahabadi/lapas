@@ -3,6 +3,7 @@
 namespace Modules\V1\Entities\Post;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class Post extends Model
 {
@@ -23,4 +24,34 @@ class Post extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
+
+    /**
+     * The attributes that are available to sort by.
+     *
+     * @var array
+     */
+    public static $sortArray = [
+        'id', 'title', 'description', 'created_at', 'updated_at',
+    ];
+
+    /**
+     * Sort a listing of the post.
+     */
+    public static function sort(string $fieldName, string $sortType)
+    {
+        return self::orderBy($fieldName, $sortType);
+    }
+
+    /**
+     * Paginate a listing of the post.
+     */
+    public static function paginate($pageLimit, $pageNumber)
+    {
+        $paginator = new Paginator(self::get(), self::count(), $pageLimit = 10, $pageNumber = 1, [
+            'path'  => request()->url(),
+            'query' => request()->query(),
+        ]);
+
+        return $paginator;
+    }
 }

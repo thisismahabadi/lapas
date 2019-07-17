@@ -15,16 +15,18 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1', 'middleware' => 'throttle:100,1'], function() {
 	Route::group(['prefix' => 'posts', 'middleware' => 'auth:api'], function() {
+
+		Route::get('sort', 'Post\PostController@sort');
+		
 		Route::get('/', 'Post\PostController@index');
 		Route::post('/', 'Post\PostController@store');
 		Route::get('/{id}', 'Post\PostController@show');
 		Route::delete('/{id}', 'Post\PostController@destroy');
 		Route::put('/{id}', 'Post\PostController@update');
 		
-		Route::get('/', 'Post\PostController@filter');
-		Route::get('/', 'Post\PostController@paginate');
-		Route::get('/', 'Post\PostController@search');
-		Route::get('/', 'Post\PostController@sort');
+		// Route::get('/', 'Post\PostController@filter');
+		// Route::get('/', 'Post\PostController@paginate');
+		// Route::get('/', 'Post\PostController@search');
 	});
 	Route::group(['middleware' => 'auth:api'], function() {
 		Route::post('logout', 'User\AuthController@logout');
