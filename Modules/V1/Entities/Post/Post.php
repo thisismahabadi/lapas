@@ -45,9 +45,9 @@ class Post extends Model
     /**
      * Paginate a listing of the post.
      */
-    public static function paginate($pageLimit, $pageNumber)
+    public static function paginate($query, $pageLimit, $pageNumber)
     {
-        $paginator = new Paginator(self::get(), self::count(), $pageLimit = 10, $pageNumber = 1, [
+        $paginator = new Paginator($query->get(), self::count(), $pageLimit = 10, $pageNumber = 1, [
             'path'  => request()->url(),
             'query' => request()->query(),
         ]);
