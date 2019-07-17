@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'v1', 'middleware' => 'throttle:100,1'], function() {
 	Route::group(['prefix' => 'posts', 'middleware' => 'auth:api'], function() {
 
-		Route::get('sort', 'Post\PostController@sort');
+		Route::get('sort', 'Post\PostController@find'); //debug
 		
 		Route::get('/', 'Post\PostController@index');
 		Route::post('/', 'Post\PostController@store');

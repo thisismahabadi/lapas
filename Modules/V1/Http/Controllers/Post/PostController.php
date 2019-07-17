@@ -9,6 +9,8 @@ use App\Http\Controllers\APIController;
 use Modules\V1\Http\Requests\Post\CreatePost;
 use Modules\V1\Http\Requests\Post\UpdatePost;
 
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+
 class PostController extends APIController
 {
     /**
@@ -104,25 +106,26 @@ class PostController extends APIController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function sort(Request $request)
+    public function find(Request $request)
     {
         try {
             if ($request->has('field') && $request->has('value')) {
-                if (in_array($request->field, Post::$sortArray)) {
-                    $posts = Post::sort($request->field, $request->value);
-                }
+                $posts = $this->sort($request->field, $request->value);
             }
 
             if ($request->has('page')) {
-                if ($posts) {
-                    $posts = Post::paginate($posts, 10, $request->page);
-
-                    return parent::response('success', $posts, 200);
+                if ($posts ?? null) {
+                    return $this->paginate([
+                        'query' => $posts->get()->toArray(),
+                        'pageLimit' => 10,
+                        'pageNumber' => $request->page,
+                    ]);
                 }
-                
-                $posts = Post::paginate($posts, 10, $request->page);
 
-                return parent::response('success', $posts, 200);
+                return $this->paginate([
+                    'pageLimit' => 10,
+                    'pageNumber' => $request->page,
+                ]);
             }
 
             if (!$request->has('page') && !$request->has('field') && !$request->has('value')) {
@@ -130,6 +133,37 @@ class PostController extends APIController
             }
 
             return parent::response('success', $posts->get(), 200);
+        } catch (Exception $e) {
+            return parent::response('error', $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Sort a listing of the post.
+     */
+    public function sort(string $fieldName, string $sortType)
+    {
+        try {
+            if (in_array($fieldName, Post::$sortArray)) {
+                return $posts = Post::sort($fieldName, $sortType);
+            }
+
+            //debug
+            return parent::response('success', $posts, 200);
+        } catch (Exception $e) {
+            return parent::response('error', $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Paginate a listing of the post.
+     */
+    public function paginate(array $parameters)
+    {
+        try {
+            $posts = Post::paginate($parameters);
+
+            return parent::response('success', $posts, 200);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }
