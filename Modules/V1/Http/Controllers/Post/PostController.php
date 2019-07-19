@@ -119,6 +119,11 @@ class PostController extends APIController
                 $posts = $this->sort($request->field, $request->value);
             }
 
+            if ($request->has('search')) {
+                $posts = $this->search($request->search);
+                //debug chain method
+            }
+
             if ($request->has('page')) {
                 if ($posts ?? null) {
                     return $this->paginate([
@@ -134,7 +139,7 @@ class PostController extends APIController
                 ]);
             }
 
-            if (!$request->has('page') && !$request->has('field') && !$request->has('value')) {
+            if (!$request->has('page') && !$request->has('field') && !$request->has('value') && !$request->has('search')) {
                 return $this->index();
             }
 
@@ -150,11 +155,9 @@ class PostController extends APIController
     public function sort(string $fieldName, string $sortType)
     {
         try {
-            if (in_array($fieldName, Post::$sortArray)) {
-                return $posts = Post::sort($fieldName, $sortType);
-            }
+            return $posts = Post::sort($fieldName, $sortType);
 
-            //debug
+            //debug return get
             return parent::response('success', $posts, 200);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
@@ -169,6 +172,21 @@ class PostController extends APIController
         try {
             $posts = Post::paginate($parameters);
 
+            return parent::response('success', $posts, 200);
+        } catch (Exception $e) {
+            return parent::response('error', $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Search in the listing of the post.
+     */
+    public static function search(string $data)
+    {
+        try {
+            return $posts = Post::search($data);
+
+            //debug return get
             return parent::response('success', $posts, 200);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);

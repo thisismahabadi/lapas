@@ -39,7 +39,9 @@ class Post extends Model
      */
     public static function sort(string $fieldName, string $sortType)
     {
-        return self::orderBy($fieldName, $sortType);
+        if (in_array($fieldName, self::$sortArray)) {
+            return self::orderBy($fieldName, $sortType);
+        }
     }
 
     /**
@@ -55,5 +57,14 @@ class Post extends Model
         ]);
 
         return $paginator;
+    }
+
+    /**
+     * Search in the listing of the post.
+     */
+    public static function search(string $data)
+    {
+        return self::where('title', 'like', '%'.$data.'%')
+            ->orWhere('description', 'like', '%'.$data.'%');
     }
 }
