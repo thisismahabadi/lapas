@@ -38,7 +38,10 @@ class PostController extends APIController
     public function store(CreatePost $request)
     {
         try {
-        	$post = Post::create($request->all());
+        	$post = Post::create([
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
 
             return parent::response('success', $post, 201);
         } catch (Exception $e) {
@@ -92,7 +95,10 @@ class PostController extends APIController
         int $id
     ) {
         try {
-        	$post = Post::where('id', $id)->update($request->all());
+        	$post = Post::where('id', $id)->update([
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
 
             return parent::response('success', $post, 200);
         } catch (Exception $e) {
@@ -101,12 +107,12 @@ class PostController extends APIController
     }
 
     /**
-     * Sort a listing of the post.
+     * Display a listing of the post based on parameters.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function find(Request $request)
+    public function get(Request $request)
     {
         try {
             if ($request->has('field') && $request->has('value')) {
