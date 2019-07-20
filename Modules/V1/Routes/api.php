@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'v1', 'middleware' => 'throttle:100,1'], function() {
+Route::group(['prefix' => 'v1', 'middleware' => 'throttle:10000000000000000,1'], function() {
 	Route::group(['prefix' => 'posts', 'middleware' => 'auth:api'], function() {
-		Route::get('/', 'Post\PostController@get');
+		Route::get('/', 'Post\PostController@get1');
 		Route::post('/', 'Post\PostController@store');
 		Route::get('/{id}', 'Post\PostController@show');
 		Route::delete('/{id}', 'Post\PostController@destroy');

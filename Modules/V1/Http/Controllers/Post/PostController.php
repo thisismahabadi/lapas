@@ -106,46 +106,49 @@ class PostController extends APIController
         }
     }
 
+    public $query;
+
     /**
      * Display a listing of the post based on parameters.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function get(Request $request)
+    public function get1(Request $request)
     {
+        $result = (new Post)->actionInit()
+            ->actionSearch($request->search);
+            //->actionSort($request->field, $request->value);
+            //->paginate();
+
+        return $result;
+        die;
+
         try {
-            if ($request->has('field') && $request->has('value')) {
-                $posts = $this->sort($request->field, $request->value);
-            }
 
-            if ($request->has('search')) {
-                $posts = $this->search($request->search);
-                //debug chain method
-            }
+            // if ($request->has('page')) {
+            //     if ($posts ?? null) {
+            //         return $this->paginate([
+            //             'query' => $posts->get()->toArray(),
+            //             'pageLimit' => 10,
+            //             'pageNumber' => $request->page,
+            //         ]);
+            //     }
 
-            if ($request->has('page')) {
-                if ($posts ?? null) {
-                    return $this->paginate([
-                        'query' => $posts->get()->toArray(),
-                        'pageLimit' => 10,
-                        'pageNumber' => $request->page,
-                    ]);
-                }
-
-                return $this->paginate([
-                    'pageLimit' => 10,
-                    'pageNumber' => $request->page,
-                ]);
-            }
+            //     return $this->paginate([
+            //         'pageLimit' => 10,
+            //         'pageNumber' => $request->page,
+            //     ]);
+            // }
 
             if (!$request->has('page') && !$request->has('field') && !$request->has('value') && !$request->has('search')) {
                 return $this->index();
             }
 
-            return parent::response('success', $posts->get(), 200);
+            // return parent::response('success', $this->query->get(), 200);
         } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
+            return 'error';
+            // return parent::response('error', $e->getMessage(), 500);
         }
     }
 
@@ -155,10 +158,9 @@ class PostController extends APIController
     public function sort(string $fieldName, string $sortType)
     {
         try {
-            return $posts = Post::sort($fieldName, $sortType);
-
-            //debug return get
-            return parent::response('success', $posts, 200);
+            if ($fieldName && $sortType) {
+                return Post::sort($fieldName, $sortType)->pluck('id');
+            }
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }
@@ -184,10 +186,9 @@ class PostController extends APIController
     public static function search(string $data)
     {
         try {
-            return $posts = Post::search($data);
-
-            //debug return get
-            return parent::response('success', $posts, 200);
+            if ($data) {
+                return Post::search($data)->pluck('id');
+            }
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }
