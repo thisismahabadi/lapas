@@ -35,22 +35,10 @@ class Post extends Model
     ];
 
     /**
-     * Paginate a listing of the post.
-     */
-    public static function paginate(array $arguments)
-    {
-        //debug
-        $query = array_slice($arguments['query'] ?? self::get()->toArray(), $arguments['pageLimit']*$arguments['pageNumber']-$arguments['pageLimit'], $arguments['pageLimit']);
-        $paginator = new Paginator($query, /* query count debug */self::count(), $arguments['pageLimit'], $arguments['pageNumber'], [
-            'path'  => request()->url(),
-            'query' => request()->query(),
-        ]);
-
-        return $paginator;
-    }
-
-    /**
      * Search in the listing of the post.
+     *
+     * @param string $data
+     * @return \Modules\V1\Entities\Post\Post
      */
     public static function search(string $data)
     {

@@ -10,14 +10,12 @@ use App\Http\Controllers\APIController;
 use Modules\V1\Http\Requests\Post\CreatePost;
 use Modules\V1\Http\Requests\Post\UpdatePost;
 
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-
 class PostController extends APIController
 {
     /**
      * Store a newly created post in database.
      *
-     * @param  \Modules\V1\Http\Requests\Post\CreatePost  $request
+     * @param \Modules\V1\Http\Requests\Post\CreatePost $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreatePost $request)
@@ -37,7 +35,7 @@ class PostController extends APIController
     /**
      * Display the specified post.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -54,7 +52,7 @@ class PostController extends APIController
     /**
      * Remove the specified post from database.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(int $id)
@@ -71,8 +69,8 @@ class PostController extends APIController
     /**
      * Update the specified post in database.
      *
-     * @param  \Modules\V1\Http\Requests\Post\UpdatePost  $request
-     * @param  int  $id
+     * @param \Modules\V1\Http\Requests\Post\UpdatePost $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(
@@ -94,7 +92,7 @@ class PostController extends APIController
     /**
      * Display a listing of the post based on parameters.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -104,29 +102,16 @@ class PostController extends APIController
             $field = $request->field ?? null;
             $value = $request->value ?? null;
             $filter = $request->filter ?? null;
+            $page = $request->page ?? null;
 
             $result = (new Action)->init()
                 ->search($search)
                 ->sort($field, $value)
                 ->filter($filter)
+                ->paginate($page)
                 ->execute();
-                //->paginate();
 
             return parent::response('success', $result, 200);
-        } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Paginate a listing of the post.
-     */
-    public function paginate(array $parameters)
-    {
-        try {
-            $posts = Post::paginate($parameters);
-
-            return parent::response('success', $posts, 200);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }
