@@ -5,6 +5,7 @@ namespace Modules\V1\Http\Controllers\Post;
 use Exception;
 use Illuminate\Http\Request;
 use Modules\V1\Entities\Post\Post;
+use Modules\V1\Entities\Post\Action;
 use App\Http\Controllers\APIController;
 use Modules\V1\Http\Requests\Post\CreatePost;
 use Modules\V1\Http\Requests\Post\UpdatePost;
@@ -13,22 +14,6 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class PostController extends APIController
 {
-    /**
-     * Display a listing of the post.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        try {
-            $posts = Post::get();
-            
-            return parent::response('success', $posts, 200);
-        } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
-        }
-    }
-
     /**
      * Store a newly created post in database.
      *
@@ -106,61 +91,28 @@ class PostController extends APIController
         }
     }
 
-    public $query;
-
     /**
      * Display a listing of the post based on parameters.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function get1(Request $request)
-    {
-        $result = (new Post)->actionInit()
-            ->actionSearch($request->search);
-            //->actionSort($request->field, $request->value);
-            //->paginate();
-
-        return $result;
-        die;
-
-        try {
-
-            // if ($request->has('page')) {
-            //     if ($posts ?? null) {
-            //         return $this->paginate([
-            //             'query' => $posts->get()->toArray(),
-            //             'pageLimit' => 10,
-            //             'pageNumber' => $request->page,
-            //         ]);
-            //     }
-
-            //     return $this->paginate([
-            //         'pageLimit' => 10,
-            //         'pageNumber' => $request->page,
-            //     ]);
-            // }
-
-            if (!$request->has('page') && !$request->has('field') && !$request->has('value') && !$request->has('search')) {
-                return $this->index();
-            }
-
-            // return parent::response('success', $this->query->get(), 200);
-        } catch (Exception $e) {
-            return 'error';
-            // return parent::response('error', $e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Sort a listing of the post.
-     */
-    public function sort(string $fieldName, string $sortType)
+    public function index(Request $request)
     {
         try {
-            if ($fieldName && $sortType) {
-                return Post::sort($fieldName, $sortType)->pluck('id');
-            }
+            $search = $request->search ?? null;
+            $field = $request->field ?? null;
+            $value = $request->value ?? null;
+            $filter = $request->filter ?? null;
+
+            $result = (new Action)->init()
+                ->search($search)
+                ->sort($field, $value)
+                ->filter($filter)
+                ->execute();
+                //->paginate();
+
+            return parent::response('success', $result, 200);
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }
@@ -175,20 +127,6 @@ class PostController extends APIController
             $posts = Post::paginate($parameters);
 
             return parent::response('success', $posts, 200);
-        } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Search in the listing of the post.
-     */
-    public static function search(string $data)
-    {
-        try {
-            if ($data) {
-                return Post::search($data)->pluck('id');
-            }
         } catch (Exception $e) {
             return parent::response('error', $e->getMessage(), 500);
         }

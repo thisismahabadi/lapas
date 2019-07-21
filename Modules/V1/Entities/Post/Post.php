@@ -35,16 +35,6 @@ class Post extends Model
     ];
 
     /**
-     * Sort a listing of the post.
-     */
-    public static function sort(string $fieldName, string $sortType)
-    {
-        if (in_array($fieldName, self::$sortArray)) {
-            return self::orderBy($fieldName, $sortType);
-        }
-    }
-
-    /**
      * Paginate a listing of the post.
      */
     public static function paginate(array $arguments)
@@ -67,43 +57,4 @@ class Post extends Model
         return self::where('title', 'like', '%'.$data.'%')
             ->orWhere('description', 'like', '%'.$data.'%');
     }
-
-    /**
-     * Action
-     */
-
-    public $query;
-
-    public function actionInit()
-    {
-        $this->query = new $this;
-
-        return $this;
-    }
-
-    public function actionSearch(string $data)
-    {
-        $searchedPosts = $this->search($data)->pluck('id');
-
-        if ($searchedPosts)
-            $this->query = $this->query->whereIn('id', $searchedPosts);
-
-        return $this;
-    }
-
-    // public function actionSort(string $fieldName, string $sortType)
-    // {
-    //     // $sortedPosts = self::sort($fieldName, $sortType);
-
-    //     self::$query = self::$query->sort($fieldName, $sortType);
-
-    //     return self;
-    // }
-
-    // public function paginate()
-    // {
-    //     $this->query = self::paginate();
-
-    //     return $this;
-    // }
 }
