@@ -5,8 +5,8 @@ namespace Modules\V1\Http\Controllers\Post;
 use Exception;
 use Illuminate\Http\Request;
 use Modules\V1\Entities\Post\Post;
-use Modules\V1\Entities\Post\Action;
 use App\Http\Controllers\APIController;
+use Modules\V1\Entities\Post\PostAction;
 use Modules\V1\Http\Requests\Post\CreatePost;
 use Modules\V1\Http\Requests\Post\UpdatePost;
 
@@ -104,7 +104,7 @@ class PostController extends APIController
             $filter = $request->filter ?? null;
             $page = $request->page ?? null;
 
-            $result = (new Action)->init()
+            $result = (new PostAction)->init()
                 ->search($search)
                 ->sort($field, $value)
                 ->filter($filter)

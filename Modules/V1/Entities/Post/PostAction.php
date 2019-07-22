@@ -5,7 +5,7 @@ namespace Modules\V1\Entities\Post;
 use Modules\V1\Entities\Post\Post;
 use Illuminate\Database\Eloquent\Model;
 
-class Action extends Model
+class PostAction extends Model
 {
 	/**
 	 * The query result.
@@ -28,7 +28,7 @@ class Action extends Model
      */
     public function init()
     {
-        $this->query = Post::where('id', '!=', '1000000');
+        $this->query = new Post;
 
     	return $this;
     }
