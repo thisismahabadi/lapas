@@ -39,8 +39,8 @@ php artisan serve
 Available routes and http methods:
 
 ```bash
-POST: /api/v1/register - register new user
-POST: /api/v1/login - login user
+POST: /api/v1/register - Register new user
+POST: /api/v1/login - Login user
 POST: /api/v1/logout - Logout from current user
 ```
 
@@ -110,11 +110,11 @@ Which means you can send 100 request per minute and after that you should stay t
 Also you can change your User class to other directory or rename it or etc by changing 'model' in users providers in auth.php config file:
 
 ```bash
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => Directory\User::class,
-        ],
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => Directory\User::class,
+    ],
 ```
 
 and I divided anything like Controller and Model and Request to the specific folder like Post and User and also use try-catch to handle some errors.
