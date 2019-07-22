@@ -50,11 +50,11 @@ This route works based on parameters:
 GET: /api/v1/posts - Display a listing of the post
 GET: /api/v1/posts?page={pageNumber} - Paginate the listing of the post
 GET: /api/v1/posts?filter={columnName} - Filter the listing of the post
-GET: /api/v1/posts?field={columnName}&value={recordValue} - Sort the listing of the post
+GET: /api/v1/posts?field={columnName}&value={orderingValue} - Sort the listing of the post
 GET: /api/v1/posts?search={recordValues} - Search in the listing of the post
 ```
 
-Or you can use everyone of these routes together, like this:
+Or you can use every one of these routes together, like this:
 
 ```bash
 GET /api/v1/posts?page=1&field=id&value=desc&search=hello&filter=id

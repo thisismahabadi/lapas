@@ -3,7 +3,6 @@
 namespace Modules\V1\Entities\Post;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class Post extends Model
 {
@@ -26,18 +25,10 @@ class Post extends Model
     ];
 
     /**
-     * The attributes that are available to sort by.
-     *
-     * @var array
-     */
-    public static $sortArray = [
-        'id', 'title', 'description', 'created_at', 'updated_at',
-    ];
-
-    /**
      * Search in the listing of the post.
      *
      * @param string $data
+     *
      * @return \Modules\V1\Entities\Post\Post
      */
     public static function search(string $data)

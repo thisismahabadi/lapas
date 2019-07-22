@@ -19,7 +19,7 @@ class PostAction extends Model
 	 *
 	 * @var int
 	 */
-    CONST pageLimit = 10;
+    CONST PAGELIMIT = 10;
 
     /**
      * Initilize action class to apply queries in the listing of the post.
@@ -37,9 +37,10 @@ class PostAction extends Model
      * Search in the listing of the post.
      *
      * @param string $data
+     *
      * @return \Modules\V1\Entities\Post\Action
      */
-    public function search(string $data = null)
+    public function search(?string $data = null)
     {
     	if ($data) {
         	$searchedPosts = Post::search($data)->pluck('id');
@@ -57,14 +58,13 @@ class PostAction extends Model
      *
      * @param string $fieldName
      * @param string $sortType
+     *
      * @return \Modules\V1\Entities\Post\Action
      */
-    public function sort(string $fieldName = null, string $sortType = null)
+    public function sort(?string $fieldName = null, ?string $sortType = null)
     {
     	if ($fieldName && $sortType) {
-	        if (in_array($fieldName, Post::$sortArray)) {
-	        	$this->query = $this->query->orderBy($fieldName, $sortType);
-			}
+        	$this->query = $this->query->orderBy($fieldName, $sortType);
 		}
 
         return $this;
@@ -74,14 +74,13 @@ class PostAction extends Model
      * Filter the listing of the post.
      *
      * @param string $columnName
+     *
      * @return \Modules\V1\Entities\Post\Action
      */
-    public function filter(string $columnName = null)
+    public function filter(?string $columnName = null)
     {
     	if ($columnName) {
-	        if (in_array($columnName, Post::$sortArray)) {
-	    		$this->query = $this->query->select($columnName);
-	    	}
+    		$this->query = $this->query->select($columnName);
     	}
 
     	return $this;
@@ -92,9 +91,10 @@ class PostAction extends Model
      *
      * @param int $pageNumber
      * @param int $pageLimit
+     *
      * @return \Modules\V1\Entities\Post\Action
      */
-    public function paginate(int $pageNumber = null, int $pageLimit = self::pageLimit)
+    public function paginate(?int $pageNumber = null, int $pageLimit = self::PAGELIMIT)
     {
         if ($pageNumber && $pageLimit) {
             $offset = ($pageNumber - 1) * $pageLimit;
