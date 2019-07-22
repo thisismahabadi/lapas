@@ -10,10 +10,15 @@ use Modules\V1\Entities\Post\PostAction;
 use Modules\V1\Http\Requests\Post\CreatePost;
 use Modules\V1\Http\Requests\Post\UpdatePost;
 
+ /**
+  * @version 1.0.0
+  */
 class PostController extends APIController
 {
     /**
      * Store a newly created post in database.
+     *
+     * @since 1.0.0
      *
      * @param \Modules\V1\Http\Requests\Post\CreatePost $request
      *
@@ -36,6 +41,8 @@ class PostController extends APIController
     /**
      * Display the specified post.
      *
+     * @since 1.0.0
+     *
      * @param int $id
      *
      * @return \Illuminate\Http\Response
@@ -54,6 +61,8 @@ class PostController extends APIController
     /**
      * Remove the specified post from database.
      *
+     * @since 1.0.0
+     *
      * @param int $id
      *
      * @return \Illuminate\Http\Response
@@ -71,6 +80,8 @@ class PostController extends APIController
 
     /**
      * Update the specified post in database.
+     *
+     * @since 1.0.0
      *
      * @param \Modules\V1\Http\Requests\Post\UpdatePost $request
      * @param int $id
@@ -95,6 +106,8 @@ class PostController extends APIController
 
     /**
      * Display a listing of the post based on parameters.
+     *
+     * @since 1.0.0
      *
      * @param \Illuminate\Http\Request $request
      *

@@ -4,6 +4,9 @@ namespace Modules\V1\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+ /**
+  * @version 1.0.0
+  */
 class CreatePost extends FormRequest
 {
     /**

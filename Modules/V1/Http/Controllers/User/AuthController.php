@@ -14,8 +14,17 @@ use App\Http\Controllers\APIController;
 use Modules\V1\Http\Requests\User\LoginUser;
 use Modules\V1\Http\Requests\User\RegisterUser;
 
+ /**
+  * @version 1.0.0
+  */
 class AuthController extends APIController
 {
+    /**
+     * Construct method which call when an instance has been created.
+     *
+     * @since 1.0.0
+     *
+     */
     public function __construct()
     {
         $this->client = Client::where('password_client', true)->orderBy('id', 'desc')->first();
@@ -23,6 +32,8 @@ class AuthController extends APIController
 
     /**
      * Store a newly created user in database.
+     *
+     * @since 1.0.0
      *
      * @param \Modules\V1\Http\Requests\User\RegisterUser $request
      *
@@ -45,6 +56,10 @@ class AuthController extends APIController
 
     /**
      * Login into existing user in database.
+     *
+     * @since 1.0.0
+     *
+     * @todo Improve better way for login and Add validation
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -86,6 +101,10 @@ class AuthController extends APIController
     /**
      * Exchange a refresh token for an access token when the access token has expired.
      *
+     * @since 1.0.0
+     *
+     * @todo Improve better way for requesting refresh token
+     *
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
@@ -116,6 +135,10 @@ class AuthController extends APIController
 
     /**
      * Logout from current user.
+     *
+     * @since 1.0.0
+     *
+     * @todo Improve better way for logout
      *
      * @param \Illuminate\Http\Request $request
      *

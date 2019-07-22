@@ -4,6 +4,9 @@ namespace Modules\V1\Entities\Post;
 
 use Illuminate\Database\Eloquent\Model;
 
+ /**
+  * @version 1.0.0
+  */
 class Post extends Model
 {
     /**
@@ -26,6 +29,8 @@ class Post extends Model
 
     /**
      * Search in the listing of the post.
+     *
+     * @since 1.0.0
      *
      * @param string $data
      *

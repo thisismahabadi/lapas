@@ -4,6 +4,9 @@ namespace Modules\V1\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+ /**
+  * @version 1.0.0
+  */
 class RegisterUser extends FormRequest
 {
     /**

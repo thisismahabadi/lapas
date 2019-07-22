@@ -5,17 +5,24 @@ namespace Modules\V1\Entities\Post;
 use Modules\V1\Entities\Post\Post;
 use Illuminate\Database\Eloquent\Model;
 
+ /**
+  * @version 1.0.0
+  */
 class PostAction extends Model
 {
 	/**
 	 * The query result.
+     *
+     * @since 1.0.0
 	 *
 	 * @var string
 	 */
     public $query;
 
 	/**
-	 * The result page limit.
+	 * The result page limit constant.
+     *
+     * @since 1.0.0
 	 *
 	 * @var int
 	 */
@@ -23,6 +30,8 @@ class PostAction extends Model
 
     /**
      * Initilize action class to apply queries in the listing of the post.
+     *
+     * @since 1.0.0
      *
      * @return \Modules\V1\Entities\Post\Action
      */
@@ -35,6 +44,10 @@ class PostAction extends Model
 
     /**
      * Search in the listing of the post.
+     *
+     * @since 1.0.0
+     *
+     * @see \Modules\V1\Entities\Post\Post::search(string $data) for search in the listing of the post
      *
      * @param string $data
      *
@@ -56,6 +69,8 @@ class PostAction extends Model
     /**
      * Sort the listing of the post.
      *
+     * @since 1.0.0
+     *
      * @param string $fieldName
      * @param string $sortType
      *
@@ -73,6 +88,8 @@ class PostAction extends Model
     /**
      * Filter the listing of the post.
      *
+     * @since 1.0.0
+     *
      * @param string $columnName
      *
      * @return \Modules\V1\Entities\Post\Action
@@ -88,6 +105,10 @@ class PostAction extends Model
 
     /**
      * Paginate the listing of the post.
+     *
+     * @since 1.0.0
+     *
+     * @todo Add more details for paginate
      *
      * @param int $pageNumber
      * @param int $pageLimit
@@ -106,6 +127,8 @@ class PostAction extends Model
 
     /**
      * Execute the result of queries in the listing of the post.
+     *
+     * @since 1.0.0
      *
      * @return \Modules\V1\Entities\Post\Action
      */

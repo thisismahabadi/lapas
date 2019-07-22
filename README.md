@@ -125,7 +125,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Alternatives
-Also I used [laravel-modules](https://github.com/nWidart/laravel-modules) for creating modular project, and [Backend with Laravel and Passport](https://www.youtube.com/watch?v=StFvAYmg04o&t=799s) video.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+Also I used [laravel-modules](https://github.com/nWidart/laravel-modules) for creating modular project, and [Backend with Laravel and Passport](https://www.youtube.com/watch?v=StFvAYmg04o&t=799s) video, and Thanks to [phpdoc](https://docs.phpdoc.org/getting-started/your-first-set-of-documentation.html) to help me for writing comments for my code.
