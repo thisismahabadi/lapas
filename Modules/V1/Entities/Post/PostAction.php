@@ -33,7 +33,7 @@ class PostAction extends Model
      *
      * @since 1.0.0
      *
-     * @return \Modules\V1\Entities\Post\Action
+     * @return \Modules\V1\Entities\Post\PostAction
      */
     public function init()
     {
@@ -51,7 +51,7 @@ class PostAction extends Model
      *
      * @param string $data
      *
-     * @return \Modules\V1\Entities\Post\Action
+     * @return \Modules\V1\Entities\Post\PostAction
      */
     public function search(?string $data = null)
     {
@@ -74,7 +74,7 @@ class PostAction extends Model
      * @param string $fieldName
      * @param string $sortType
      *
-     * @return \Modules\V1\Entities\Post\Action
+     * @return \Modules\V1\Entities\Post\PostAction
      */
     public function sort(?string $fieldName = null, ?string $sortType = null)
     {
@@ -92,7 +92,7 @@ class PostAction extends Model
      *
      * @param string $columnName
      *
-     * @return \Modules\V1\Entities\Post\Action
+     * @return \Modules\V1\Entities\Post\PostAction
      */
     public function filter(?string $columnName = null)
     {
@@ -113,7 +113,7 @@ class PostAction extends Model
      * @param int $pageNumber
      * @param int $pageLimit
      *
-     * @return \Modules\V1\Entities\Post\Action
+     * @return \Modules\V1\Entities\Post\PostAction
      */
     public function paginate(?int $pageNumber = null, int $pageLimit = self::PAGELIMIT)
     {
@@ -130,7 +130,7 @@ class PostAction extends Model
      *
      * @since 1.0.0
      *
-     * @return \Modules\V1\Entities\Post\Action
+     * @return \Modules\V1\Entities\Post\PostAction
      */
     public function execute()
     {

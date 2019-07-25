@@ -72,11 +72,9 @@ class AuthController extends APIController
                 'email' => 'required|email',
                 'password' => 'required|string',
             ]);
+            $user = User::where('email', $request->email)->first();
 
-        	if (Auth::attempt([
-        		'email' => $request->email,
-        		'password' => $request->password,
-        	])) {
+        	if (Hash::check($request->password, $user->password)) {
                 $params = [
                     'grant_type' => 'password',
                     'client_id' => $this->client->id,
