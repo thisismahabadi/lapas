@@ -75,6 +75,8 @@ All of these routes except register and login are provided with auth:api middlew
 
 ### Passport and Other Configuration
 
+First of all you should configure your project like what Laravel said in [This](https://laravel.com/docs/5.8/passport) official document.
+
 In VerifyCsrfToken middleware I set $except array to following routes to avoid sending csrf-token in the body like this:
 
 ```bash

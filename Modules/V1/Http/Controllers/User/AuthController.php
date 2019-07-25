@@ -20,6 +20,15 @@ use Modules\V1\Http\Requests\User\RegisterUser;
 class AuthController extends APIController
 {
     /**
+     * The client access result.
+     *
+     * @since 1.0.0
+     *
+     * @var string
+     */
+    private $client;
+
+    /**
      * Construct method which call when an instance has been created.
      *
      * @since 1.0.0
