@@ -71,7 +71,7 @@ DELETE: /api/v1/posts/{id} - Remove the specified post from database
 POST: /api/v1/refresh - Exchange a refresh token for an access token when the access token has expired
 ```
 
-All of these routes except register and login are provided with auth:api middleware which means you should send Authorization field in request header.
+All of these routes except register and login and logout are provided with auth:api middleware which means you should send Authorization field in request header.
 
 ### Passport and Other Configuration
 
