@@ -28,4 +28,9 @@ class APIController extends Controller
     		'code' => $code,
     	], $code);
     }
+
+    public function unauthorized()
+    {
+        return $this->response('error', 'Unauthorized', 401);
+    }
 }

@@ -77,26 +77,28 @@ class AuthController extends APIController
     public function login(/* LoginUser */Request $request)
     {
         try {
-            $this->validate($request, [
+            $validator = $this->validate($request, [
                 'email' => 'required|email',
                 'password' => 'required|string',
             ]);
             $user = User::where('email', $request->email)->first();
 
-        	if (Hash::check($request->password, $user->password)) {
-                $params = [
-                    'grant_type' => 'password',
-                    'client_id' => $this->client->id,
-                    'client_secret' => $this->client->secret,
-                    'username' => $request->email,
-                    'password' => $request->password,
-                    'scope' => '*'
-                ];
-                $request->request->add($params);
-                $proxy = Request::create('oauth/token', 'POST');
-                $oauth = Route::dispatch($proxy);
+            if ($user) {
+            	if (Hash::check($request->password, $user->password)) {
+                    $params = [
+                        'grant_type' => 'password',
+                        'client_id' => $this->client->id,
+                        'client_secret' => $this->client->secret,
+                        'username' => $request->email,
+                        'password' => $request->password,
+                        'scope' => '*'
+                    ];
+                    $request->request->add($params);
+                    $proxy = Request::create('oauth/token', 'POST');
+                    $oauth = Route::dispatch($proxy);
 
-                return parent::response('success', json_decode($oauth->getContent(), true), 200);
+                    return parent::response('success', json_decode($oauth->getContent(), true), 200);
+                }
             }
 
             return parent::response('error', 'Unauthorized', 401);
