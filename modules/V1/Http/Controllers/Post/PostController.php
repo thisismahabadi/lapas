@@ -31,9 +31,9 @@ class PostController extends APIController
         try {
         	$post = Post::store($request);
 
-            return $this->response('success', $post, 201);
+            return $this->response(Response::SUCCESS, $post, Response::HTTP_CREATED);
         } catch (Exception $e) {
-            return $this->response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -53,9 +53,9 @@ class PostController extends APIController
         try {
         	$post = Post::show($id);
 
-            return $this->response('success', $post, 200);
+            return $this->response(Response::SUCCESS, $post, Response::HTTP_OK);
         } catch (Exception $e) {
-            return $this->response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,9 +75,9 @@ class PostController extends APIController
         try {
             $post = Post::remove($id);
 
-            return $this->response('success', $post, 204);
+            return $this->response(Response::SUCCESS, $post, Response::HTTP_NO_CONTENT);
         } catch (Exception $e) {
-            return $this->response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -98,9 +98,9 @@ class PostController extends APIController
         try {
         	$post = Post::edit($request, $id);
 
-            return $this->response('success', $post, 200);
+            return $this->response(Response::SUCCESS, $post, Response::HTTP_OK);
         } catch (Exception $e) {
-            return $this->response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -120,9 +120,9 @@ class PostController extends APIController
         try {
             $posts = Post::index($request);
 
-            return $this->response('success', $posts, 200);
+            return $this->response(Response::SUCCESS, $posts, Response::HTTP_OK);
         } catch (Exception $e) {
-            return $this->response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
