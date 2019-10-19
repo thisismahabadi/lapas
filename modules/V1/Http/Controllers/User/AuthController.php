@@ -2,14 +2,11 @@
 
 namespace Modules\V1\Http\Controllers\User;
 
-use DB;
-use Auth;
 use Exception;
+use App\Classes\Response;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 use Modules\V1\Entities\User\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use Modules\V1\Http\Requests\User\LoginUser;
 use Modules\V1\Http\Requests\User\RegisterUser;
@@ -36,7 +33,9 @@ class AuthController extends APIController
      */
     public function __construct()
     {
-        $this->client = Client::where('password_client', true)->orderBy('id', 'desc')->first();
+        $this->client = Client::where('password_client', true)
+            ->orderBy('id', 'desc')
+            ->first();
     }
 
     /**
@@ -46,20 +45,18 @@ class AuthController extends APIController
      *
      * @param \Modules\V1\Http\Requests\User\RegisterUser $request
      *
-     * @return \Illuminate\Http\Response
+     * @see \Modules\V1\Entities\User\User::register(RegisterUser $request)
+     *
+     * @return object
      */
-    public function register(RegisterUser $request)
+    public function register(RegisterUser $request): object
     {
         try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+            $data = User::register($request);
 
-            return parent::response('success', 'User has been registered successfully.', 201);
+            return $this->response(Response::SUCCESS, $data, Response::HTTP_CREATED);
         } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -68,42 +65,20 @@ class AuthController extends APIController
      *
      * @since 1.0.0
      *
-     * @todo Improve better way for login and Add validation
-     *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @see \Modules\V1\Entities\User\User::login(Request $request, Client $client)
+     *
+     * @return object
      */
-    public function login(/* LoginUser */Request $request)
+    public function login(Request $request): object
     {
         try {
-            $validator = $this->validate($request, [
-                'email' => 'required|email',
-                'password' => 'required|string',
-            ]);
-            $user = User::where('email', $request->email)->first();
+            $data = User::login($request, $this->client);
 
-            if ($user) {
-            	if (Hash::check($request->password, $user->password)) {
-                    $params = [
-                        'grant_type' => 'password',
-                        'client_id' => $this->client->id,
-                        'client_secret' => $this->client->secret,
-                        'username' => $request->email,
-                        'password' => $request->password,
-                        'scope' => '*'
-                    ];
-                    $request->request->add($params);
-                    $proxy = Request::create('oauth/token', 'POST');
-                    $oauth = Route::dispatch($proxy);
-
-                    return parent::response('success', json_decode($oauth->getContent(), true), 200);
-                }
-            }
-
-            return parent::response('error', 'Unauthorized', 401);
+            return $this->response(Response::SUCCESS, $data, Response::HTTP_OK);
         } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -112,33 +87,20 @@ class AuthController extends APIController
      *
      * @since 1.0.0
      *
-     * @todo Improve better way for requesting refresh token
-     *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @see \Modules\V1\Entities\User\User::refresh(Request $request)
+     *
+     * @return object
      */
-    public function refresh(Request $request)
+    public function refresh(Request $request): object
     {
         try {
-            $this->validate($request, [
-                'refresh_token' => 'required',
-            ]);
+            $data = User::refreshToken($request, $this->client);
 
-            $params = [
-                'grant_type' => 'refresh_token',
-                'refresh_token' => $request->refresh_token,
-                'client_id' => $this->client->id,
-                'client_secret' => $this->client->secret,
-                'scope' => ''
-            ];
-            $request->request->add($params);
-            $proxy = Request::create('oauth/token', 'POST');
-            $oauth = Route::dispatch($proxy);
-
-            return parent::response('success', json_decode($oauth->getContent(), true), 200);
+            return $this->response(Response::SUCCESS, $data, Response::HTTP_OK);
         } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -147,22 +109,18 @@ class AuthController extends APIController
      *
      * @since 1.0.0
      *
-     * @todo Improve better way for logout
+     * @see \Modules\V1\Entities\User\User::logout()
      *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * @return object
      */
-    public function logout(Request $request)
+    public function logout(): object
     {
         try {
-            $accessToken = Auth::user()->token();
-            DB::table('oauth_refresh_tokens')->where('access_token_id', $accessToken->id)->update(['revoked' => true]);
-            $accessToken->revoke();
+            $data = User::logout();
 
-            return parent::response('error', 'User has been logout successfully.', 204);
+            return $this->response(Response::SUCCESS, $data, Response::HTTP_NO_CONTENT);
         } catch (Exception $e) {
-            return parent::response('error', $e->getMessage(), 500);
+            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

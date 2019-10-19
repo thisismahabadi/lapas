@@ -9,6 +9,7 @@ use Illuminate\Http\Response as HTTPResponse;
   */
 class Response extends HTTPResponse
 {
-    const ERROR = "error";
-    const SUCCESS = "success";
+    const ERROR = "Error";
+    const SUCCESS = "Success";
+    const UNAUTHORIZED = "Unauthorized";
 }
