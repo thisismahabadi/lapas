@@ -3,12 +3,11 @@
 namespace Modules\V1\Entities\Post;
 
 use Modules\V1\Entities\Post\Post;
-use Illuminate\Database\Eloquent\Model;
 
  /**
   * @version 1.0.0
   */
-class PostAction extends Model
+class PostAction
 {
 	/**
 	 * The query result.
@@ -33,9 +32,9 @@ class PostAction extends Model
      *
      * @since 1.0.0
      *
-     * @return \Modules\V1\Entities\Post\PostAction
+     * @return object
      */
-    public function init()
+    public function init(): object
     {
         $this->query = new Post;
 
@@ -51,9 +50,9 @@ class PostAction extends Model
      *
      * @param string $data
      *
-     * @return \Modules\V1\Entities\Post\PostAction
+     * @return object
      */
-    public function search(?string $data = null)
+    public function search(?string $data = null): object
     {
     	if ($data) {
         	$searchedPosts = Post::search($data)->pluck('id');
@@ -74,9 +73,9 @@ class PostAction extends Model
      * @param string $fieldName
      * @param string $sortType
      *
-     * @return \Modules\V1\Entities\Post\PostAction
+     * @return object
      */
-    public function sort(?string $fieldName = null, ?string $sortType = null)
+    public function sort(?string $fieldName = null, ?string $sortType = null): object
     {
     	if ($fieldName && $sortType) {
         	$this->query = $this->query->orderBy($fieldName, $sortType);
@@ -92,9 +91,9 @@ class PostAction extends Model
      *
      * @param string $columnName
      *
-     * @return \Modules\V1\Entities\Post\PostAction
+     * @return object
      */
-    public function filter(?string $columnName = null)
+    public function filter(?string $columnName = null): object
     {
     	if ($columnName) {
     		$this->query = $this->query->select($columnName);
@@ -113,9 +112,9 @@ class PostAction extends Model
      * @param int $pageNumber
      * @param int $pageLimit
      *
-     * @return \Modules\V1\Entities\Post\PostAction
+     * @return object
      */
-    public function paginate(?int $pageNumber = null, int $pageLimit = self::PAGELIMIT)
+    public function paginate(?int $pageNumber = null, int $pageLimit = self::PAGELIMIT): object
     {
         if ($pageNumber && $pageLimit) {
             $offset = ($pageNumber - 1) * $pageLimit;
@@ -130,9 +129,9 @@ class PostAction extends Model
      *
      * @since 1.0.0
      *
-     * @return \Modules\V1\Entities\Post\PostAction
+     * @return object
      */
-    public function execute()
+    public function execute(): object
     {
         return $this->query->get();
     }

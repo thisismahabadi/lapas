@@ -52,6 +52,8 @@ class Handler extends ExceptionHandler
             return (new APIController)->response('error', $exception->getMessage(), $exception->getStatusCode());
         }
 
+        return (new APIController)->response('error', $exception->getMessage(), 500);
+
         return parent::render($request, $exception);
     }
 }
