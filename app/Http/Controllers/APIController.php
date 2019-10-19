@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Response;
 use Illuminate\Http\Request;
 
  /**
@@ -31,6 +32,6 @@ class APIController extends Controller
 
     public function unauthorized()
     {
-        return $this->response('error', 'Unauthorized', 401);
+        return $this->response(Response::ERROR, Response::UNAUTHORIZED, Response::UNAUTHORIZED);
     }
 }

@@ -3,6 +3,7 @@
 namespace Modules\V1\Tests\Unit;
 
 use Tests\TestCase;
+use App\Classes\Response;
 use Modules\V1\Entities\User\User;
 use Modules\V1\Entities\Post\Post;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,8 +26,8 @@ class PostTest extends TestCase
         $this->actingAs($user)
              ->get('/api/v1/posts')
              ->assertJson([
-                'status' => 'success',
-                'code' => 200,
+                'status' => Response::SUCCESS,
+                'code' => Response::HTTP_OK,
              ]);
     }
 
@@ -39,8 +40,8 @@ class PostTest extends TestCase
     {
         $this->get('/api/v1/posts')
              ->assertJson([
-                'status' => 'error',
-                'code' => 401,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNAUTHORIZED,
              ]);
     }
 
@@ -62,8 +63,8 @@ class PostTest extends TestCase
         $this->actingAs($user)
              ->json('POST', '/api/v1/posts', $data)
              ->assertJson([
-                'status' => 'success',
-                'code' => 201,
+                'status' => Response::SUCCESS,
+                'code' => Response::HTTP_CREATED,
              ]);
     }
 
@@ -84,8 +85,8 @@ class PostTest extends TestCase
         $this->actingAs($user)
              ->json('POST', '/api/v1/posts', $data)
              ->assertJson([
-                'status' => 'error',
-                'code' => 422,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
              ]);
     }
 
@@ -105,8 +106,8 @@ class PostTest extends TestCase
 
         $this->json('POST', '/api/v1/posts', $data)
              ->assertJson([
-                'status' => 'error',
-                'code' => 401,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNAUTHORIZED,
              ]);
     }
 
@@ -123,8 +124,8 @@ class PostTest extends TestCase
         $this->actingAs($user)
              ->get('/api/v1/posts/'.$post->id)
              ->assertJson([
-                'status' => 'success',
-                'code' => 200,
+                'status' => Response::SUCCESS,
+                'code' => Response::HTTP_OK,
              ]);
     }
 
@@ -139,8 +140,8 @@ class PostTest extends TestCase
 
         $this->get('/api/v1/posts/'.$post->id)
              ->assertJson([
-                'status' => 'error',
-                'code' => 401,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNAUTHORIZED,
              ]);
     }
 
@@ -156,7 +157,7 @@ class PostTest extends TestCase
 
         $this->actingAs($user)
              ->json('DELETE', '/api/v1/posts/'.$post->id)
-             ->assertResponseStatus(204);
+             ->assertResponseStatus(Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -170,8 +171,8 @@ class PostTest extends TestCase
 
         $this->json('DELETE', '/api/v1/posts/'.$post->id)
              ->assertJson([
-                'status' => 'error',
-                'code' => 401,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNAUTHORIZED,
              ]);
     }
 
@@ -193,8 +194,8 @@ class PostTest extends TestCase
         $this->actingAs($user)
              ->json('PUT', '/api/v1/posts/'.$post->id, $data)
              ->assertJson([
-                'status' => 'success',
-                'code' => 200,
+                'status' => Response::SUCCESS,
+                'code' => Response::HTTP_OK,
              ]);
     }
 
@@ -215,8 +216,8 @@ class PostTest extends TestCase
         $this->actingAs($user)
              ->json('PUT', '/api/v1/posts/'.$post->id, $data)
              ->assertJson([
-                'status' => 'error',
-                'code' => 422,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
              ]);
     }
 
@@ -236,8 +237,8 @@ class PostTest extends TestCase
 
         $this->json('PUT', '/api/v1/posts/'.$post->id, $data)
              ->assertJson([
-                'status' => 'error',
-                'code' => 401,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNAUTHORIZED,
              ]);
     }
 }

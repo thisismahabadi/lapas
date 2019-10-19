@@ -12,4 +12,5 @@ class Response extends HTTPResponse
     const ERROR = "Error";
     const SUCCESS = "Success";
     const UNAUTHORIZED = "Unauthorized";
+    const UNAUTHENTICATED = "Unauthenticated.";
 }

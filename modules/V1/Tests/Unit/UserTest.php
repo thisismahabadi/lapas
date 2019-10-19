@@ -3,6 +3,7 @@
 namespace Modules\V1\Tests\Unit;
 
 use Tests\TestCase;
+use App\Classes\Response;
 use Modules\V1\Entities\User\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -30,8 +31,8 @@ class UserTest extends TestCase
 
         $this->json('POST', '/api/v1/register', $data)
              ->assertJson([
-                'status' => 'success',
-                'code' => 201,
+                'status' => Response::SUCCESS,
+                'code' => Response::HTTP_CREATED,
              ]);
     }
 
@@ -52,8 +53,8 @@ class UserTest extends TestCase
 
         $this->json('POST', '/api/v1/register', $data)
              ->assertJson([
-                'status' => 'error',
-                'code' => 422,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
              ]);
     }
 
@@ -77,8 +78,8 @@ class UserTest extends TestCase
 
         $this->json('POST', '/api/v1/login', $data)
              ->assertJson([
-                'status' => 'success',
-                'code' => 200,
+                'status' => Response::SUCCESS,
+                'code' => Response::HTTP_OK,
              ]);
     }
 
@@ -98,8 +99,8 @@ class UserTest extends TestCase
 
         $this->json('POST', '/api/v1/login', $data)
              ->assertJson([
-                'status' => 'error',
-                'code' => 401,
+                'status' => Response::ERROR,
+                'code' => Response::HTTP_UNAUTHORIZED,
              ]);
     }
 }

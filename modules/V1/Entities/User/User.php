@@ -116,7 +116,7 @@ class User extends Authenticatable
             }
         }
 
-        throw new Exception(Response::UNAUTHORIZED, Response::HTTP_UNAUTHORIZED);
+        return abort(Response::HTTP_UNAUTHORIZED, Response::UNAUTHORIZED);
     }
 
     /**

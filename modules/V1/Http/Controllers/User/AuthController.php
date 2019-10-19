@@ -78,7 +78,7 @@ class AuthController extends APIController
 
             return $this->response(Response::SUCCESS, $data, Response::HTTP_OK);
         } catch (Exception $e) {
-            return $this->response(Response::ERROR, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->response(Response::ERROR, $e->getMessage(), $e->getStatusCode() ?? Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
