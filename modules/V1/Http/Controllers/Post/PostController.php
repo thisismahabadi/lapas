@@ -3,6 +3,7 @@
 namespace Modules\V1\Http\Controllers\Post;
 
 use Exception;
+use App\Classes\Response;
 use Illuminate\Http\Request;
 use Modules\V1\Entities\Post\Post;
 use App\Http\Controllers\APIController;
