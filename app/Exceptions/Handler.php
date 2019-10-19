@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use App\Classes\Response;
 use App\Http\Controllers\APIController;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -49,32 +51,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $errorMessage = $exception->getMessage();
+
         if ($this->isHttpException($exception)) {
-            $errorMessage = $exception->getMessage();
             $errorCode = $exception->getStatusCode();
 
-            if ($errorMessage == Response::UNAUTHENTICATED) {
-                return (new APIController)->response(Response::ERROR, Response::UNAUTHORIZED, Response::HTTP_UNAUTHORIZED);
-            }
-
-            if ($errorMessage == Response::UNAUTHORIZED) {
+            if ($errorCode == Response::HTTP_UNAUTHORIZED) {
                 return (new APIController)->response(Response::ERROR, Response::UNAUTHORIZED, Response::HTTP_UNAUTHORIZED);
             }
 
             if ($errorCode === Response::HTTP_METHOD_NOT_ALLOWED) {
-                return (new APIController)->response(Response::ERROR, $exception->getMessage, Response::HTTP_METHOD_NOT_ALLOWED);
+                return (new APIController)->response(Response::ERROR, $errorMessage, Response::HTTP_METHOD_NOT_ALLOWED);
             }
         }
 
         if ($exception instanceof ThrottleRequestsException) {
-            return (new APIController)->response(Response::ERROR, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return (new APIController)->response(Response::ERROR, $errorMessage, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($exception instanceof ValidationException) {
             return (new APIController)->response(Response::ERROR, $exception->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return (new APIController)->response(Response::ERROR, $exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($exception instanceof AuthenticationException) {
+            return (new APIController)->response(Response::ERROR, Response::UNAUTHORIZED, Response::HTTP_UNAUTHORIZED);
+        }
+
+        return (new APIController)->response(Response::ERROR, $errorMessage, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         return parent::render($request, $exception);
     }

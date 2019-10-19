@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\APIController;
+use App\Classes\Response;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -16,7 +16,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('unauthorized');
+            return abort(Response::HTTP_UNAUTHORIZED, Response::UNAUTHORIZED);
+            // return route('unauthorized');
         }
     }
 }

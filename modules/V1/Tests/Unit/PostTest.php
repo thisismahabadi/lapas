@@ -23,7 +23,7 @@ class PostTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->get('/api/v1/posts')
              ->assertJson([
                 'status' => Response::SUCCESS,
@@ -60,7 +60,7 @@ class PostTest extends TestCase
             'description' => $post->description,
         ];
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->json('POST', '/api/v1/posts', $data)
              ->assertJson([
                 'status' => Response::SUCCESS,
@@ -82,7 +82,7 @@ class PostTest extends TestCase
             'title' => $post->title,
         ];
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->json('POST', '/api/v1/posts', $data)
              ->assertJson([
                 'status' => Response::ERROR,
@@ -121,7 +121,7 @@ class PostTest extends TestCase
         $user = factory(User::class)->create();
         $post = factory(Post::class)->create();
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->get('/api/v1/posts/'.$post->id)
              ->assertJson([
                 'status' => Response::SUCCESS,
@@ -155,9 +155,9 @@ class PostTest extends TestCase
         $user = factory(User::class)->create();
         $post = factory(Post::class)->create();
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->json('DELETE', '/api/v1/posts/'.$post->id)
-             ->assertResponseStatus(Response::HTTP_NO_CONTENT);
+             ->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -191,7 +191,7 @@ class PostTest extends TestCase
             'description' => $post->description,
         ];
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->json('PUT', '/api/v1/posts/'.$post->id, $data)
              ->assertJson([
                 'status' => Response::SUCCESS,
@@ -213,7 +213,7 @@ class PostTest extends TestCase
             'title' => $post->title,
         ];
 
-        $this->actingAs($user)
+        $this->actingAs($user, Response::API)
              ->json('PUT', '/api/v1/posts/'.$post->id, $data)
              ->assertJson([
                 'status' => Response::ERROR,
